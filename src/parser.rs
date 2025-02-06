@@ -56,11 +56,11 @@ impl Parser {
     fn parse_factor(&mut self) -> Expr {
         let mut expr = self.parse_primary();
         while self.peek() == Some(&Token::Exp) {
-            self.next();
+            let op = self.next().unwrap();
             let right = self.parse_factor();
             expr = Expr::Op {
                 left: Box::new(expr),
-                op: Token::Exp,
+                op,
                 right: Box::new(right),
             };
         }
@@ -70,10 +70,17 @@ impl Parser {
     fn parse_primary(&mut self) -> Expr {
         match self.next() {
             Some(Token::Num(n)) => Expr::Num(n),
-            Some(Token::LParen) => self.parse_expr(),
+            Some(Token::LParen) => {
+                let expr = self.parse_expr();
+                if self.next() != Some(Token::RParen) {
+                    panic!("Expected closing parentheses");
+                }
+                expr
+            }
             _ => panic!("Unrecognized token"),
         }
     }
+    
 
     fn peek(&self) -> Option<&Token> {
         self.tokens.get(self.cursor)
