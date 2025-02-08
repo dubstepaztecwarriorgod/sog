@@ -1,6 +1,6 @@
 use crate::token::Token;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 #[allow(unused)]
 pub enum Expr {
     Num(i32),
@@ -17,7 +17,7 @@ pub struct Parser {
 }
 
 impl Parser {
-    pub fn new(tokens: Vec<Token>) -> Self {
+    pub const fn new(tokens: Vec<Token>) -> Self {
         Parser { tokens, cursor: 0 }
     }
 
@@ -77,7 +77,7 @@ impl Parser {
                 }
                 expr
             }
-            _ => panic!("Unrecognized token"),
+            _ => unreachable!(),
         }
     }
     

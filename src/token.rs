@@ -32,7 +32,7 @@ pub fn tokenize(input: &[u8]) -> Vec<Token> {
         match input[cursor] {
             b'0'..b'9' => {
                 let mut number_buffer = String::new();
-                while input[cursor].is_ascii_digit() {
+                while cursor < input.len() && input[cursor].is_ascii_digit() {
                     number_buffer.push(input[cursor] as char);
                     cursor += 1;
                 }
