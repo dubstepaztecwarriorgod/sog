@@ -1,8 +1,7 @@
 use crate::token::Token;
 use crate::parser::Expr;
 
-const ASM_START: &'static str = "
-extern printf
+const ASM_START: &'static str = "extern printf
 global main
 
 segment .text
